@@ -27,7 +27,7 @@ def _get_voc_segmentation_dataloaders():
     transform_target = transforms.Compose([
         transforms.Resize(args.image_dimension),
         transforms.CenterCrop(args.image_dimension),
-        transforms.PILToTensor()
+        transforms.PILToTensor(),
         transforms.Lambda(lambda x: torch.squeeze(x, 0))
     ])
     dataset = datasets.VOCSegmentation(
