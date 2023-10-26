@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from torchvision.models import vgg16_bn, VGG16_BN_Weights
 
 class SegnetVGG(nn.Module):
-    def __init__(self, in_channels=3, num_classes=20):
+    def __init__(self, in_channels=3, num_classes=21):
         super().__init__()
         # Encoder will use a pretrained VGG16 with bn to speed up convergence and training
         self.encoder = vgg16_bn(weights=VGG16_BN_Weights.DEFAULT)
