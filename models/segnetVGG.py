@@ -80,5 +80,5 @@ class ConvBlock2(nn.Module):
         return self.convolutions(x)
     
 def SegnetVGG():
-    model = SegnetVGG()
+    model = Segnet_VGG()
     return model
