@@ -54,7 +54,7 @@ def loop():
     v.model = v.model.to(args.device)
     v.optimizer = optim.Adam(v.model.parameters(), lr=args.learning_rate)
     v.current_epoch = 1
-    v.criterion = torch.nn.CrossEntropyLoss()
+    v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
     os.makedirs(f"{args.save_path}/{tag}", exist_ok=True)
     v.writer = SummaryWriter(log_dir=f"{args.save_path}/{tag}")
     with open(f"{args.save_path}/{tag}/{tag}.json", "w+") as f:
