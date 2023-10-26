@@ -57,5 +57,5 @@ def _get_voc_segmentation_dataloaders():
     print(trainset[0][1].numpy().shape)
 '''
 def segnet_voc_segmentation():
-    v.model = models.segnetVGG()
+    v.model = models.Segnet_VGG()
     _get_voc_segmentation_dataloaders()
