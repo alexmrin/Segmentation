@@ -28,6 +28,7 @@ def _get_voc_segmentation_dataloaders():
         transforms.Resize(args.image_dimension),
         transforms.CenterCrop(args.image_dimension),
         transforms.PILToTensor()
+        transforms.Lambda(lambda x: torch.squeeze(x, 0))
     ])
     dataset = datasets.VOCSegmentation(
         root=args.data_path, year='2012', download=True, transform=transform_train, target_transform=transform_target
