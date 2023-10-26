@@ -79,6 +79,6 @@ class ConvBlock2(nn.Module):
     def forward(self, x):
         return self.convolutions(x)
     
-def SegnetVGG():
-    model = Segnet_VGG()
+def Segnet_VGG():
+    model = SegnetVGG()
     return model
