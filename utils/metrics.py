@@ -42,7 +42,7 @@ def mean_IOU(groundtruth_masks, pred_masks, num_classes):
         for cls in range(num_classes):
             cls_mask = groundtruth_mask == cls
             intersection = ((pred_mask == cls) & cls_mask).sum().item()
-            union = cls_mask.sum().items() + (pred_mask == cls).sum().item() - intersection
+            union = cls_mask.sum().item() + (pred_mask == cls).sum().item() - intersection
             class_IOU[cls] = (intersection/union) if union > 0 else 0
 
         total_IOU[idx] = class_IOU.mean().item()
