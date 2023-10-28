@@ -63,7 +63,7 @@ def test():
 
 def loop():
     v.model = v.model.to(args.device)
-    v.optimizer = optim.Adam(v.model.parameters(), lr=args.learning_rate, weight_decay=v.weight_decay)
+    v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=v.weight_decay)
     v.current_epoch = 1
     v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
     os.makedirs(f"{args.save_path}/{tag}", exist_ok=True)
