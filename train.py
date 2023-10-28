@@ -50,8 +50,8 @@ def test():
     f1: float = metrics.f1_score(labels, preds, v.num_classes)
     t.close()
     sample = next(iter(v.validloader))
-    data, mask = sample[0].to(args.device), sample[1].to(args.device)
-    visualization.visualize(mask, v.model(data))
+    data, mask = sample[0][0].unsqueeze(0).to(args.device), sample[1][0].to(args.device)
+    visualization.visualize(torch.argmax(v.model(data), dim=1).squeeze(0), mask)
     return {
         "global accuracy": global_accuracy,
         "class avg accuracy": class_accuracy,
