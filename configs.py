@@ -20,6 +20,7 @@ def _get_voc_segmentation_dataloaders():
     class_names = ['Background', 'Aeroplane', 'Bicycle', 'Bird', 'Boat', 'Bottle', 'Bus', 'Car', 'Cat', 'Chair', 'Cow',
                     'Dining table', 'Dog', 'Horse', 'Motorbike', 'Person', 'Potted plant', 'Sheep', 'Sofa' ,'Train', 'TV/Monitor']
     v.mask_dict = {i : name for i, name in enumerate(class_names)}
+    v.num_classes = 21
     norm_params = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
     transform_train = transforms.Compose([
         transforms.Resize(args.image_dimension),
