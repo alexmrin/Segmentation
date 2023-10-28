@@ -13,3 +13,4 @@ testloader: Optional[DataLoader] = None
 writer: Optional[SummaryWriter] = None
 current_epoch: int = 0
 mask_dict: Optional[dict] = None
+num_classes: Optional[int] = None
