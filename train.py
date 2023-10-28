@@ -50,7 +50,8 @@ def test():
     f1: float = metrics.f1_score(labels, preds, v.num_classes)
     t.close()
     sample = next(iter(v.validloader))
-    visualization.visualize(sample[1], v.model(sample[0]))
+    data, mask = sample[0].to(v.device), sample[1].to(v.device)
+    visualization.visualize(mask, v.model(data))
     return {
         "global accuracy": global_accuracy,
         "class avg accuracy": class_accuracy,
