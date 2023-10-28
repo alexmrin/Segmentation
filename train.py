@@ -39,6 +39,8 @@ def test():
             labels.extend(target.tolist())
             preds.extend(predicted.tolist())
             t.update(1)
+
+    labels, preds = torch.tensor(labels), torch.tensor(preds)
     global_accuracy: float = metrics.global_accuracy_score(labels, preds)
     class_accuracy: float = metrics.class_average_accuracy_score(labels, preds, v.num_classes)
     mean_IOU: float = metrics.mean_IOU(labels, preds, v.num_classes)
