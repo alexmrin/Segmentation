@@ -33,7 +33,7 @@ def visualize(pred_mask, groundtruth_mask):
     pred_transformed = voc_mask_transform(pred_mask).numpy()
     groundtruth_transformed = voc_mask_transform(groundtruth_mask).numpy()
 
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+    fig, ax = plt.subplots(1, 3, figsize=(15, 8))
     ax[0].imshow(pred_transformed)
     ax[0].set_title('Predicted Mask')
     
