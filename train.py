@@ -47,6 +47,8 @@ def test():
     recall: float = metrics.recall_score(labels, preds, v.num_classes)
     f1: float = metrics.f1_score(labels, preds, v.num_classes)
     t.close()
+    sample = next(iter(v.validlaoder))
+    visualization.visualize(sample[1], v.model(sample[0]))
     return {
         "global accuracy": global_accuracy,
         "class avg accuracy": class_accuracy,
