@@ -40,7 +40,7 @@ def visualize(pred_mask, groundtruth_mask):
     ax[1].imshow(groundtruth_transformed)
     ax[1].set_title('Ground Truth Mask')
 
-    patches = [mpatches.Patch(color=voc_mask_colors[i].numpy()/255, label=v.dict_names[i]) for i in range(len(voc_mask_colors))]
+    patches = [mpatches.Patch(color=voc_mask_colors[i].numpy()/255, label=v.mask_dict[i]) for i in range(len(voc_mask_colors))]
     ax[2].legend(handles=patches, bbox_to_anchor=(0.5, 1), loc='upper center')
     ax[2].axis('off')
     ax[2].set_title('Color Map Key')
