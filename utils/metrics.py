@@ -81,3 +81,13 @@ def recall_score(groundtruth_mask, pred_mask, num_classes):
 
     recall = TPs.sum().item()/TP_FNs.sum().item() if TP_FNs.sum().item() > 0 else 0
     return recall
+
+#micro
+def f1_score(groundtruth_mask, pred_mask, num_classes):
+    precision = precision_score(groundtruth_mask, pred_mask, num_classes)
+    recall = recall_score(groundtruth_mask, pred_mask, num_classes)
+    if precision + recall > 0:
+        f1 = 2 * (precision * recall) / (precision + recall)
+    else:
+        f1 = 0
+    return f1
