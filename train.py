@@ -1,13 +1,14 @@
 import os
 
 import torch
-from sklearn.metrics import accuracy_score, f1_score, recall_score, precision_score
 import torch.optim as optim
 
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from configs import *
+from utils import visualization
+from utils import metrics
 import vars as v
 import json
 
@@ -38,23 +39,29 @@ def test():
             labels.extend(target.tolist())
             preds.extend(predicted.tolist())
             t.update(1)
-    accuracy: float = accuracy_score(labels, preds)
-    precision: float = precision_score(labels, preds, average="macro")
-    recall: float = recall_score(labels, preds, average="macro")
-    f1: float = f1_score(labels, preds, average="macro")
+    global_accuracy: float = metrics.global_accuracy_score(labels, preds)
+    class_accuracy: float = metrics.class_average_accuracy_score(labels, preds, v.num_classes)
+    mean_IOU: float = metrics.mean_IOU(labels, preds, v.num_classes)
+    fw_IOU: float = metrics.freq_weighted_IOU(labels, preds, v.num_classes)
+    precision: float = metrics.precision_score(labels, preds, v.num_classes)
+    recall: float = metrics.recall_score(labels, preds, v.num_classes)
+    f1: float = metrics.f1_score(labels, preds, v.num_classes)
     t.close()
     return {
-        "accuracy": accuracy,
+        "global accuracy": global_accuracy,
+        "class avg accuracy": class_accuracy,
+        "mean IOU": mean_IOU,
+        "frequency weighted IOU": fw_IOU,
         "precision": precision,
         "recall": recall,
-        "f1": f1,
+        "f1": f1
     }
 
 def loop():
     v.model = v.model.to(args.device)
     v.optimizer = optim.Adam(v.model.parameters(), lr=args.learning_rate)
     v.current_epoch = 1
-    v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
+    v.criterion = torch.nn.CrossEntropyLoss()
     os.makedirs(f"{args.save_path}/{tag}", exist_ok=True)
     v.writer = SummaryWriter(log_dir=f"{args.save_path}/{tag}")
     with open(f"{args.save_path}/{tag}/{tag}.json", "w+") as f:
