@@ -65,7 +65,7 @@ def test():
 def loop():
     v.model = v.model.to(args.device)
     v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
-    v.lr_scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30, 60, 90], gamma=0.1)
+    v.lr_scheduler = optim.lr_scheduler.MultiStepLR(v.optimizer, milestones=[30, 60, 90], gamma=0.1)
     v.current_epoch = 1
     v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
     os.makedirs(f"{args.save_path}/{tag}", exist_ok=True)
