@@ -8,6 +8,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 
 from configs import *
+import models
 from utils import visualization
 from utils import metrics
 import vars as v
