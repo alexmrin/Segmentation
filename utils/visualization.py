@@ -1,3 +1,5 @@
+import os
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import torch
@@ -45,7 +47,8 @@ def visualize(pred_mask, groundtruth_mask):
     ax[2].axis('off')
     ax[2].set_title('Color Map Key')
 
-    plt.savefig('output.png')
+    os.makedirs('../comparisons', exist_ok=True)
+    plt.savefig(f'../comparisons/comparison_{v.current_epoch}.png')
     plt.close(fig)
 
 def voc_mask_transform(mask):
