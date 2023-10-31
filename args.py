@@ -1,7 +1,7 @@
 import torch
 
 learning_rate = 1e-2
-num_epochs = 100
+num_epochs = 250
 momentum = 0.9
 weight_decay = 1e-5
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
