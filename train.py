@@ -19,6 +19,7 @@ def load_checkpoint(filepath = None):
         raise Exception('Specify filepath')
     else:
         checkpoint = torch.load(filepath)
+        v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.model.load_state_dict(checkpoint['model_state_dict'])
         v.optimizer = checkpoint['optimizer_state_dict']
         v.current_epoch = checkpoint['epoch']
