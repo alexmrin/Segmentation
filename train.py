@@ -138,7 +138,7 @@ def loop():
 
 if __name__ == "__main__":
     globals()[dataset_name]()
-    v.model = globals()[model_name]()
+    v.model = getattr(models, model_name)()
     if dict_path:
         load_checkpoint(dict_path)
     loop()
