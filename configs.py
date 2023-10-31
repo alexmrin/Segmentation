@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 
 import args
 import vars as v
-import models
 from cli import *
 
 def _get_voc_segmentation_dataloaders():
@@ -60,6 +59,5 @@ def _get_voc_segmentation_dataloaders():
     print(uniques)
     print(trainset[0][1].numpy().shape)
 '''
-def segnet_voc_segmentation():
-    v.model = models.Segnet_VGG()
+def voc_segmentation():
     _get_voc_segmentation_dataloaders()
