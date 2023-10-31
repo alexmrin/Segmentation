@@ -117,7 +117,7 @@ def loop():
     
     v.writer = SummaryWriter(log_dir=f"{args.save_path}/{tag}")
     while v.current_epoch <= args.num_epochs:
-        key, value = train().items()
+        (key, value), = train().items()
         v.writer.add_scalar(key, value, v.current_epoch)
 
         # writes the metric results into tensorboard
