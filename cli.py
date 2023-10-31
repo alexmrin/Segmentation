@@ -36,4 +36,4 @@ cli_args = parser.parse_args()
 model_name = cli_args.model
 dataset_name = cli_args.dataset
 dict_path = cli_args.path
-tag = f'{cli_args.model}_{cli_args.dataset}--{cli_args.tag}' if cli_args.dict_path else f'checkpoint_{cli_args.model}_{cli_args.dataset}--{cli_args.tag}' 
+tag = f'{cli_args.model}_{cli_args.dataset}--{cli_args.tag}' if cli_args.path else f'checkpoint_{cli_args.model}_{cli_args.dataset}--{cli_args.tag}' 
