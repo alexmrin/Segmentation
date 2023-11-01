@@ -15,3 +15,4 @@ current_epoch: int = 0
 mask_dict: Optional[dict] = None
 num_classes: Optional[int] = None
 lr_scheduler: Optional[torch.optim.lr_scheduler._LRScheduler] = None
+norm_params: Optional[tuple] = None
