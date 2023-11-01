@@ -32,7 +32,7 @@ voc_mask_colors = torch.tensor([
 ], dtype=torch.uint8)
 
 def visualize(image, pred_mask, groundtruth_mask):
-    image = image.numpy().transpose([1, 2, 0])
+    image = image.cpu().numpy().transpose([1, 2, 0])
     pred_transformed = voc_mask_transform(pred_mask).numpy()
     groundtruth_transformed = voc_mask_transform(groundtruth_mask).numpy()
 
