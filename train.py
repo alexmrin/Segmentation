@@ -81,7 +81,7 @@ def test():
     # compare output with groundtruth mask
     sample = next(iter(v.validloader))
     data, mask = sample[0][0].unsqueeze(0).to(args.device), sample[1][0].to(args.device)
-    visualization.visualize(torch.argmax(v.model(data), dim=1).squeeze(0), mask)
+    visualization.visualize(data, torch.argmax(v.model(data), dim=1).squeeze(0), mask)
 
     return {
         "loss": {'validation': valid_loss},
