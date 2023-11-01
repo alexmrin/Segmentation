@@ -122,6 +122,8 @@ def loop():
 
         # writes the metric results into tensorboard
         for key, value in test().items():
+            if key == 'loss/validation':
+                valid_loss = value
             v.writer.add_scalar(key, value, v.current_epoch)
 
         # saves model state
@@ -134,7 +136,7 @@ def loop():
             f"{args.save_path}/{tag}/{tag}.pt",
         )
 
-        v.lr_scheduler.step()
+        v.lr_scheduler.step(valid_loss)
         v.current_epoch += 1
 
 if __name__ == "__main__":
