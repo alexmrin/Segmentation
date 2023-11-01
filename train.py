@@ -45,7 +45,7 @@ def train():
     t.close()
     train_loss /= len(v.trainloader.dataset)
 
-    return {'loss': {'train': train_loss}}
+    return 'loss/train', train_loss
 
 def test():
     v.model.eval()
@@ -84,7 +84,7 @@ def test():
     visualization.visualize(data, torch.argmax(v.model(data), dim=1).squeeze(0), mask)
 
     return {
-        "loss": {'validation': valid_loss},
+        "loss/validation": valid_loss,
         "global accuracy": global_accuracy,
         "class avg accuracy": class_accuracy,
         "mean IOU": mean_IOU,
@@ -117,7 +117,7 @@ def loop():
     
     v.writer = SummaryWriter(log_dir=f"{args.save_path}/{tag}")
     while v.current_epoch <= args.num_epochs:
-        (key, value), = train().items()
+        key, value = train()
         v.writer.add_scalar(key, value, v.current_epoch)
 
         # writes the metric results into tensorboard
