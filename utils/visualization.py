@@ -32,6 +32,7 @@ voc_mask_colors = torch.tensor([
 ], dtype=torch.uint8)
 
 def visualize(image, pred_mask, groundtruth_mask):
+    image = unnormalize(image, *v.norm_params)
     image = image.cpu().numpy().transpose([1, 2, 0])
     pred_transformed = voc_mask_transform(pred_mask).numpy()
     groundtruth_transformed = voc_mask_transform(groundtruth_mask).numpy()
@@ -61,3 +62,8 @@ def voc_mask_transform(mask):
         transformed_mask[idx == mask] = color
     
     return transformed_mask
+
+def unnormalize(image, means, stds):
+    for channel, mean, std in zip(image, means, stds):
+        channel.mul_(std).add_(mean)
+    return image
