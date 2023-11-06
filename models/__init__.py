@@ -1,2 +1,2 @@
-from .segnet import *
+from .unet import *
 from .segnetVGG import *
