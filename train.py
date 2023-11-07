@@ -24,6 +24,10 @@ def load_checkpoint(filepath = None):
         # v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.model.load_state_dict(checkpoint['model_state_dict'])
         v.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        for state in v.optimizer.state.values():
+            for k, val in state.items():
+                if isinstance(val, torch.Tensor):
+                    state[k] = val.to(args.device)
         v.current_epoch = checkpoint['epoch']
 
 def train():
