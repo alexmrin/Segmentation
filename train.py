@@ -20,7 +20,8 @@ def load_checkpoint(filepath = None):
         raise Exception('Specify filepath')
     else:
         checkpoint = torch.load(filepath)
-        v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        v.optimizer = optim.AdamW(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        # v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.model.load_state_dict(checkpoint['model_state_dict'])
         v.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
         v.current_epoch = checkpoint['epoch']
@@ -98,11 +99,12 @@ def test():
 def loop():
     # initalize variables
     if not dict_path:
-        v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        #v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        v.optimizer = optim.AdamW(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.current_epoch = 1
 
-    v.lr_scheduler = MultiStepLR(v.optimizer, milestones=[30, 60, 90], gamma=0.1)
-    #v.lr_scheduler = ReduceLROnPlateau(v.optimizer, mode='min', factor=0.1)
+    #v.lr_scheduler = MultiStepLR(v.optimizer, milestones=[5, 25], gamma=0.1)
+    v.lr_scheduler = ReduceLROnPlateau(v.optimizer, mode='min', factor=0.1, cooldown=5, patience=10)
     v.model = v.model.to(args.device)
     v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
 
@@ -137,8 +139,8 @@ def loop():
             },
             f"{args.save_path}/{tag}/{tag}.pt",
         )
-        v.lr_scheduler.step()
-        #v.lr_scheduler.step(valid_loss)
+        #v.lr_scheduler.step()
+        v.lr_scheduler.step(valid_loss)
         v.current_epoch += 1
 
 if __name__ == "__main__":
