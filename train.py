@@ -3,6 +3,7 @@ import os
 import torch
 import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
+from torch.optim.lr_scheduler import MultiStepLR
 
 from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
@@ -100,7 +101,8 @@ def loop():
         v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.current_epoch = 1
 
-    v.lr_scheduler = ReduceLROnPlateau(v.optimizer, mode='min', factor=0.1)
+    v.lr_scheduler = MultiStepLR(v.optimizer, milestones=[30, 60, 90], gamma=0.1)
+    #v.lr_scheduler = ReduceLROnPlateau(v.optimizer, mode='min', factor=0.1)
     v.model = v.model.to(args.device)
     v.criterion = torch.nn.CrossEntropyLoss(ignore_index=255)
 
@@ -135,8 +137,8 @@ def loop():
             },
             f"{args.save_path}/{tag}/{tag}.pt",
         )
-
-        v.lr_scheduler.step(valid_loss)
+        v.lr_scheduler.step()
+        #v.lr_scheduler.step(valid_loss)
         v.current_epoch += 1
 
 if __name__ == "__main__":
