@@ -114,3 +114,7 @@ class DecoderBlock(nn.Module):
         x = torch.cat((skip, x), dim=1)
         x = self.convolutions(x)
         return x
+    
+def unet_resnet():
+    model = Unet_Resnet()
+    return model
