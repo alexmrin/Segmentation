@@ -44,9 +44,22 @@ class Unet_Resnet(nn.Module):
         self.decoder3 = DecoderBlock(256)
         self.decoder4 = DecoderBlock(128)
         self.decoder5 = DecoderBlock(64, halve=False)
-
+        self.decoder6 = nn.Sequential(
+            nn.UpsamplingNearest2d(scale_factor=2),
+            nn.Conv2d(in_channels=64, out_channels=32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.Conv2d(in_channels=32, out_channels=32, kernel_size=3, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+        )
+        
         # final layer
-        self.final_conv = nn.Conv2d(64, num_classes, kernel_size=1)
+        self.final_conv = nn.Conv2d(32, num_classes, kernel_size=1)
+
 
     def forward(self, x):
         x = self.encoder1(x)
@@ -65,6 +78,7 @@ class Unet_Resnet(nn.Module):
         x = self.decoder3(x, s3)
         x = self.decoder4(x, s2)
         x = self.decoder5(x, s1)
+        x = self.decoder6(x)
         x = self.final_conv(x)
         return x
 
@@ -97,7 +111,7 @@ class DecoderBlock(nn.Module):
                 nn.ReLU()
             )
             self.convolutions = nn.Sequential(
-                nn.Conv2d(in_channels=in_channels, out_channels=in_channels, kernel_size=3, padding=1),
+                nn.Conv2d(in_channels=in_channels*2, out_channels=in_channels, kernel_size=3, padding=1),
                 nn.BatchNorm2d(in_channels),
                 nn.ReLU(),
                 nn.Conv2d(in_channels=in_channels, out_channels=in_channels, kernel_size=3, padding=1),
