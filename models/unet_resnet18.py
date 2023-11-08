@@ -3,7 +3,7 @@ import torch.nn as nn
 from torchvision.models import resnet18
 from utils import center_crop_tensor
 
-class Unet_Resnet(nn.Module):
+class Unet_Resnet18(nn.Module):
     def __init__(self, in_channels=3, num_classes=21):
         super().__init__()
         resnet = resnet18(pretrained=True)
@@ -129,6 +129,6 @@ class DecoderBlock(nn.Module):
         x = self.convolutions(x)
         return x
     
-def unet_resnet():
-    model = Unet_Resnet()
+def unet_resnet18():
+    model = Unet_Resnet18()
     return model

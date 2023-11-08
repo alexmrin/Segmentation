@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 
 def center_crop_tensor(target_dimension, input_tensor):
     delta_h = (input_tensor.shape[2] - target_dimension[2])//2
