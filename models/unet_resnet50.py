@@ -25,7 +25,7 @@ class Unet_Resnet50(nn.Module):
         # bottleneck
         # 2048 channels -> 4096 channels (4x4)
         self.bottleneck = nn.Sequential(
-            nn.Conv2d(in_channels=4096, out_channels=4096, kernel_size=3, padding=1, stride=2),
+            nn.Conv2d(in_channels=2048, out_channels=4096, kernel_size=3, padding=1, stride=2),
             nn.BatchNorm2d(4096),
             nn.ReLU(inplace=True),
             ResidualBlock(4096)
@@ -67,8 +67,8 @@ class Unet_Resnet50(nn.Module):
         x = self.decoder2(x, s4)
         x = self.decoder3(x, s3)
         x = self.decoder4(x, s2)
-        x = self.decoder4(x, s1)
-        x = self.decoder5(x)
+        x = self.decoder5(x, s1)
+        x = self.decoder6(x)
         
         x = self.final_conv(x)
         return x
@@ -87,7 +87,9 @@ class DecoderBlock(nn.Module):
             nn.Conv2d(in_channels=out_channels*2, out_channels=out_channels, kernel_size=3, padding=1),
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True),
-            ResidualBlock(out_channels),
+            nn.Conv2d(in_channels=out_channels, out_channels=out_channels, kernel_size=3, padding=1),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(inplace=True),
             ResidualBlock(out_channels)
         )
         
@@ -115,3 +117,7 @@ class ResidualBlock(nn.Module):
         residual = self.residual(x)
         out = residual + skip_connection
         return out
+    
+def unet_resnet50():
+    model = Unet_Resnet50()
+    return model

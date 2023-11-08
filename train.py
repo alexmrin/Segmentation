@@ -20,7 +20,7 @@ def load_checkpoint(filepath = None):
         raise Exception('Specify filepath')
     else:
         checkpoint = torch.load(filepath)
-        v.optimizer = optim.AdamW(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        v.optimizer = optim.AdamW(filter(lambda p: p.requires_grad==True, v.model.parameters()), lr=args.learning_rate, weight_decay=args.weight_decay)
         # v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.model.load_state_dict(checkpoint['model_state_dict'])
         v.optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -104,7 +104,7 @@ def loop():
     # initalize variables
     if not dict_path:
         #v.optimizer = optim.SGD(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
-        v.optimizer = optim.AdamW(v.model.parameters(), lr=args.learning_rate, weight_decay=args.weight_decay)
+        v.optimizer = optim.AdamW(filter(lambda p: p.requires_grad==True, v.model.parameters()), lr=args.learning_rate, weight_decay=args.weight_decay)
         v.current_epoch = 1
 
     #v.lr_scheduler = MultiStepLR(v.optimizer, milestones=[5, 25], gamma=0.1)
